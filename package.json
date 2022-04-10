@@ -1,7 +1,7 @@
 {
     "name": "vue-poster",
-    "version": "0.1.1",
-    "main": "index.js",
+    "version": "0.1.2",
+    "main": "packages/index.js",
     "private": true,
     "scripts": {
         "dev": "vue-cli-service serve",
