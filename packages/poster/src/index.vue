@@ -22,14 +22,17 @@ export default {
     },
     methods: {
         generatorImage() {
+            let ouputName = this.ouputName || 'output.png'
+
             html2canvas(this.$refs.capture, { useCORS: true }).then(canvas => {
                 this.$refs.root.append(canvas);
                 let link = document.createElement('a');
                 link.href = canvas.toDataURL();
-                link.setAttribute('download', this.ouputName);
+                link.setAttribute('download', ouputName);
                 link.style.display = 'none';
                 document.body.appendChild(link);
                 link.click();
+                link.remove();
             })
         },
     },
