@@ -2,7 +2,7 @@
 <template>
     <div ref="root">
         <div ref="capture" class="vuePoster" :class="className">
-            <div ref="groups" v-for="(g, ix) in value" :key="ix">
+            <div ref="groups" class="groups" v-for="(g, ix) in value" :key="ix">
                 <vuePosterItem v-for="(option,index) in g.groups" :key="index" :options="option" />
             </div>
             <vpNode v-html="`<style>${baseStyle}</style>`" />

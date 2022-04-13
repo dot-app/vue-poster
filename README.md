@@ -49,7 +49,7 @@
 | 属性   | 类型   | 说明                     |
 | ------ | ------ | ------------------------ |
 | name   | String | 保存分组图片时，命名时用 |
-| groups | Array  | 胚子数据                 |
+| groups | Array  | 分组数据                 |
 
 
 ## option
@@ -61,7 +61,7 @@
 | tableData  | Array  | tableData                    |
 | pluginName | String | 目前仅支持：vue-drag-resize  |
 
- ## baseOptions
+## baseOptions
 ````
 type: '',
 style: '',
@@ -71,7 +71,7 @@ childrensClassName: '',
 childrens: []
 ````
 
- ## pluginOptions
+## pluginOptions
 
 ````
 h: 100,
@@ -86,7 +86,7 @@ sticks: ['tl', 'tm', 'tr', 'mr', 'br', 'bm', 'bl', 'ml']
 ````
 
 
- 
+
 ## tableData
 ````
 {
@@ -125,7 +125,6 @@ sticks: ['tl', 'tm', 'tr', 'mr', 'br', 'bm', 'bl', 'ml']
 ```
 npm install vue-html2canvas
 npm i jszip
-npm i file-saver
 ```
 
 
