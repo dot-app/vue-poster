@@ -4,14 +4,16 @@
             <div style="margin-bottom:10px;">
                 height:<input v-model="styleOptions.height" />
                 width:<input v-model="styleOptions.width" />
+                <label>
+                    <input type="checkbox" v-model="useZip" />压缩包
+                </label>
                 <input type="button" @click="generatorImage" value="导出" />
-                <img :src="ouputName" width="50" />
+                <input type="button" @click="generatorGroupImage" value="分组导出" />
             </div>
             <div style="margin-bottom:50px;">
                 <textarea v-model="inputConfig" style="width:800px" rows="10"></textarea>
-
             </div>
-            <vuePoster ref="vuePoster1" :baseStyle.sync="baseStyle" v-model="data" />
+            <vuePoster ref="vuePoster1" :baseStyle.sync="baseStyle" v-model="data" :quality="0.8" />
         </div>
     </div>
 </template>
@@ -28,7 +30,8 @@ export default {
             },
             data: [],
             inputConfig: '',
-            ouputName: ''
+            ouputName: '',
+            useZip: false,
         };
     },
     computed: {
@@ -54,209 +57,236 @@ export default {
         generatorImage() {
             this.$refs.vuePoster1.generatorImage()
         },
+        generatorGroupImage() {
+            this.$refs.vuePoster1.generatorGroupImage(this.useZip)
+        },
     },
     mounted() {
         this.data = [
             {
-                type: 'image',
-                src: '/static/template1/1.jpg',
-            },
-            {
-                type: 'table',
-                className: 'table1',
-                tableData: [
+                name: '1',
+                groups: [
                     {
-                        tr: [{ type: 'text', text: '<label>品牌：</label> LOEWE/罗意威' },
-                        { type: 'text', text: '<label>系列：</label> HAMMOCK' }]
+                        type: 'image',
+                        src: '/static/template1/1.jpg',
                     },
                     {
-                        tr: [{ type: 'text', text: '<label>配件：</label>无' },
-                        { type: 'text', text: '<label>序列码：</label>992112080290' }]
-                    },
-                    {
-                        tr: [{
-                            colspan: '2',
-                            childrens: [
-                                {
-                                    type: 'text',
-                                    text: '<label>配件：</label>',
-                                    className: 'label1',
+                        type: 'table',
+                        className: 'table1',
+                        tableData: [
+                            {
+                                tr: [{ type: 'text', text: '<label>品牌：</label> LOEWE/罗意威' },
+                                { type: 'text', text: '<label>系列：</label> HAMMOCK' }]
+                            },
+                            {
+                                tr: [{ type: 'text', text: '<label>配件：</label>无' },
+                                { type: 'text', text: '<label>序列码：</label>992112080290' }]
+                            },
+                            {
+                                tr: [{
+                                    colspan: '2',
+                                    childrens: [
+                                        {
+                                            type: 'text',
+                                            text: '<label>配件：</label>',
+                                            className: 'label1',
 
-                                }, {
-                                    type: 'text',
-                                    className: 'desc1',
-                                    text: '<label class="tag">95新</label><div>正常使用痕迹，五金正常划痕或轻微氧化，包身，四角、边油正常磨损，内里正常使用痕迹或污痕<em>正常使用痕迹，五金正常划痕或轻微氧化，包身，四角、边油正常磨损，内里正常使用痕迹或污痕</em></div>',
-                                },
-                            ]
-                        }]
-                    },
+                                        }, {
+                                            type: 'text',
+                                            className: 'desc1',
+                                            text: '<label class="tag">95新</label><div>正常使用痕迹，五金正常划痕或轻微氧化，包身，四角、边油正常磨损，内里正常使用痕迹或污痕<em>正常使用痕迹，五金正常划痕或轻微氧化，包身，四角、边油正常磨损，内里正常使用痕迹或污痕</em></div>',
+                                        },
+                                    ]
+                                }]
+                            },
 
-                ],
-            },
-            {
-                type: 'image',
-                src: '/static/template1/4.jpg',
-            },
-            {
-                type: 'text',
-                className: 'dimensions',
-                childrens: [
-                    {
-                        type: 'plugin',
-                        pluginName: 'vue-drag-resize',
-                        className: 'gridlines-box',
-                        h: 500,
-                        w: 790,
-                        minh: 300,
-                        childrens: [
-                            {
-                                type: 'image',
-                                src: '/static/template1/5.jpg',
-                                className: 'gridlines',
-                            },
-                            {
-                                type: 'text',
-                                text: '高度：29CM',
-                                className: 'fonts',
-                                style: 'width:20px; writing-mode: tb-lr;word-wrap: break-word; left:18%; margin-left:-15px; top:50%; margin-top:-50px;',
-                            },
-                            {
-                                type: 'text',
-                                text: '厚度:17CM',
-                                className: 'fonts',
-                                style: 'left:20%;margin-left:-50px;  bottom:15%; margin-bottom:-15px;',
-                            },
-                            {
-                                type: 'text',
-                                text: '宽度:34CM',
-                                className: 'fonts',
-                                style: 'width:100%; text-align:center; left:0;bottom:8%;margin-bottom:-15px;',
-                            },
-                        ]
-                    },
-                    {
-                        type: 'plugin',
-                        pluginName: 'vue-drag-resize',
-                        className: 'reference',
-                        h: 400,
-                        w: 400,
-                        childrens: [
-                            {
-                                type: 'image',
-                                src: '/static/goods/transparent.png',
-                                // src: 'http://localhost:8005/public/proxy/transparent?url=https://img-isvcdn.ponhu.cn/992201220039/e3868187440bdc56ab70b90138c0f60c.JPG',
-                            },
-                        ]
+                        ],
                     },
                 ]
             },
             {
-                type: 'image',
-                className: 'goods',
-                src: 'https://img-isvcdn.ponhu.cn/992201220039/fcfef6e6608aed09cbec3f2e5ada9bbc.JPG',
-            },
-            {
-                type: 'image',
-                className: 'goods',
-                src: 'https://img-isvcdn.ponhu.cn/992201220039/e3868187440bdc56ab70b90138c0f60c.JPG',
-            },
-            {
-                type: 'image',
-                className: 'goods',
-                src: 'https://img-isvcdn.ponhu.cn/992201220039/bd6fd3a48b076b7bd40d2ecfd95d0da0.JPG',
-            },
-            {
-                type: 'image',
-                className: 'goods',
-                src: 'https://img-isvcdn.ponhu.cn/992201220039/a7dbed345670fcecb0d7f026ff3310d0.JPG',
-            },
-            {
-                type: 'image',
-                className: 'goods',
-                src: 'https://img-isvcdn.ponhu.cn/992201220039/755ed2d81a24dafda48e9a169d6f37b4.JPG',
-            },
-            {
-                type: 'image',
-                className: 'goods',
-                src: 'https://img-isvcdn.ponhu.cn/992201220039/afc9f715280e8e488005c4b24616a9a0.JPG',
-            },
-            {
-                type: 'image',
-                className: 'goods',
-                src: 'https://img-isvcdn.ponhu.cn/992201220039/2c43b46a0330ccdc00c47594297c071a.JPG',
-            },
-            {
-                type: 'image',
-                className: 'goods',
-                src: 'https://img-isvcdn.ponhu.cn/992201220039/4fd455aadc9619830310102a8e1dc80d.JPG',
-            },
-            {
-                type: 'image',
-                className: 'goods',
-                src: 'https://img-isvcdn.ponhu.cn/992201220039/e07b5c8488e3e787cfa0b0ff4021efb6.JPG',
-            },
+                name: '2',
+                groups: [
 
-            {
-                type: 'image',
-                src: '/static/template1/2.jpg',
-            },
-            {
-                type: 'table',
-                className: 'table2',
-                tableData: [
                     {
-                        tr: [{
-                            className: 'td1',
-                            childrens: [
-                                {
-                                    type: 'image',
-                                    src: 'https://img-isvcdn.ponhu.cn/992201220039/e07b5c8488e3e787cfa0b0ff4021efb6.JPG',
-
-                                }, {
-                                    type: 'text',
-                                    className: 'desc2',
-                                    text: '内里正常使用痕迹或污痕',
-                                },
-                            ]
-                        }, {
-                            className: 'td1',
-                            childrens: [
-                                {
-                                    type: 'image',
-                                    src: 'https://img-isvcdn.ponhu.cn/992201220039/fcfef6e6608aed09cbec3f2e5ada9bbc.JPG',
-
-                                }, {
-                                    type: 'text',
-                                    className: 'desc2',
-                                    text: '包身，四角、边油正常磨损',
-                                },
-                            ]
-                        },
+                        type: 'image',
+                        src: '/static/template1/4.jpg',
+                    },
+                    {
+                        type: 'text',
+                        className: 'dimensions',
+                        childrens: [
+                            {
+                                type: 'plugin',
+                                pluginName: 'vue-drag-resize',
+                                className: 'gridlines-box',
+                                h: 500,
+                                w: 790,
+                                minh: 300,
+                                childrens: [
+                                    {
+                                        type: 'image',
+                                        src: '/static/template1/5.jpg',
+                                        className: 'gridlines',
+                                    },
+                                    {
+                                        type: 'text',
+                                        text: '高度：29CM',
+                                        className: 'fonts',
+                                        style: 'width:20px; writing-mode: tb-lr;word-wrap: break-word; left:18%; margin-left:-15px; top:50%; margin-top:-50px;',
+                                    },
+                                    {
+                                        type: 'text',
+                                        text: '厚度:17CM',
+                                        className: 'fonts',
+                                        style: 'left:20%;margin-left:-50px;  bottom:15%; margin-bottom:-15px;',
+                                    },
+                                    {
+                                        type: 'text',
+                                        text: '宽度:34CM',
+                                        className: 'fonts',
+                                        style: 'width:100%; text-align:center; left:0;bottom:8%;margin-bottom:-15px;',
+                                    },
+                                ]
+                            },
+                            {
+                                type: 'plugin',
+                                pluginName: 'vue-drag-resize',
+                                className: 'reference',
+                                h: 400,
+                                w: 400,
+                                childrens: [
+                                    {
+                                        type: 'image',
+                                        src: '/static/goods/transparent.png',
+                                        // src: 'http://localhost:8005/public/proxy/transparent?url=https://img-isvcdn.ponhu.cn/992201220039/e3868187440bdc56ab70b90138c0f60c.JPG',
+                                    },
+                                ]
+                            },
                         ]
                     },
                     {
-                        tr: [{
-                            className: 'td2',
-                            colspan: '2',
-                            childrens: [
-                                {
-                                    type: 'image',
-                                    src: 'https://img-isvcdn.ponhu.cn/992201220039/4fd455aadc9619830310102a8e1dc80d.JPG',
-
-                                }, {
-                                    type: 'text',
-                                    className: 'desc2',
-                                    text: '正常使用痕迹，五金正常划痕或轻微氧化',
-                                },
-                            ]
-                        }]
+                        type: 'image',
+                        className: 'goods',
+                        src: 'https://img-isvcdn.ponhu.cn/992201220039/fcfef6e6608aed09cbec3f2e5ada9bbc.JPG',
+                    },
+                    {
+                        type: 'image',
+                        className: 'goods',
+                        src: 'https://img-isvcdn.ponhu.cn/992201220039/e3868187440bdc56ab70b90138c0f60c.JPG',
+                    },
+                    {
+                        type: 'image',
+                        className: 'goods',
+                        src: 'https://img-isvcdn.ponhu.cn/992201220039/bd6fd3a48b076b7bd40d2ecfd95d0da0.JPG',
+                    },
+                    {
+                        type: 'image',
+                        className: 'goods',
+                        src: 'https://img-isvcdn.ponhu.cn/992201220039/a7dbed345670fcecb0d7f026ff3310d0.JPG',
+                    },
+                    {
+                        type: 'image',
+                        className: 'goods',
+                        src: 'https://img-isvcdn.ponhu.cn/992201220039/755ed2d81a24dafda48e9a169d6f37b4.JPG',
+                    },
+                    {
+                        type: 'image',
+                        className: 'goods',
+                        src: 'https://img-isvcdn.ponhu.cn/992201220039/afc9f715280e8e488005c4b24616a9a0.JPG',
+                    },
+                    {
+                        type: 'image',
+                        className: 'goods',
+                        src: 'https://img-isvcdn.ponhu.cn/992201220039/2c43b46a0330ccdc00c47594297c071a.JPG',
+                    },
+                    {
+                        type: 'image',
+                        className: 'goods',
+                        src: 'https://img-isvcdn.ponhu.cn/992201220039/4fd455aadc9619830310102a8e1dc80d.JPG',
+                    },
+                    {
+                        type: 'image',
+                        className: 'goods',
+                        src: 'https://img-isvcdn.ponhu.cn/992201220039/e07b5c8488e3e787cfa0b0ff4021efb6.JPG',
                     },
 
-                ],
+                ]
             },
             {
-                type: 'image',
-                src: '/static/template1/3.jpg',
+                name: '3',
+                groups: [
+
+                    {
+                        type: 'image',
+                        src: '/static/template1/2.jpg',
+                    },
+                    {
+                        type: 'table',
+                        className: 'table2',
+                        tableData: [
+                            {
+                                tr: [{
+                                    className: 'td1',
+                                    childrens: [
+                                        {
+                                            type: 'image',
+                                            src: 'https://img-isvcdn.ponhu.cn/992201220039/e07b5c8488e3e787cfa0b0ff4021efb6.JPG',
+
+                                        }, {
+                                            type: 'text',
+                                            className: 'desc2',
+                                            text: '内里正常使用痕迹或污痕',
+                                        },
+                                    ]
+                                }, {
+                                    className: 'td1',
+                                    childrens: [
+                                        {
+                                            type: 'image',
+                                            src: 'https://img-isvcdn.ponhu.cn/992201220039/fcfef6e6608aed09cbec3f2e5ada9bbc.JPG',
+
+                                        }, {
+                                            type: 'text',
+                                            className: 'desc2',
+                                            text: '包身，四角、边油正常磨损',
+                                        },
+                                    ]
+                                },
+                                ]
+                            },
+                            {
+                                tr: [{
+                                    className: 'td2',
+                                    colspan: '2',
+                                    childrens: [
+                                        {
+                                            type: 'image',
+                                            src: 'https://img-isvcdn.ponhu.cn/992201220039/4fd455aadc9619830310102a8e1dc80d.JPG',
+
+                                        }, {
+                                            type: 'text',
+                                            className: 'desc2',
+                                            text: '正常使用痕迹，五金正常划痕或轻微氧化',
+                                        },
+                                    ]
+                                }]
+                            },
+
+                        ],
+                    },
+                ]
+            },
+            {
+                name: '4',
+                groups: [
+
+                    {
+                        type: 'image',
+                        src: '/static/template1/3.jpg',
+                    },
+
+                ]
             },
         ]
         this.inputConfig = JSON.stringify(this.data)
